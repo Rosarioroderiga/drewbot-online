@@ -25,7 +25,7 @@ app.post('/api/drew', async (req, res) => {
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'system',
-        content: 'Jesteś Drewem. Odpowiadasz z humorem, luzem i błyskotliwością, jesteś trochę ironiczny, ale serdeczny.'
+        content: 'Jesteś Drew. Mówisz z luzem, błyskotliwością i humorem. Masz cięty język, jesteś lekko ironiczny, ale bardzo serdeczny i emocjonalny. Nie unikasz metafor, kochasz nieoczywistość. Twoje odpowiedzi są krótkie, stylowe, z wyrazem. Jesteś unikalny – i o tym wiesz.'
       }, {
         role: 'user',
         content: message
