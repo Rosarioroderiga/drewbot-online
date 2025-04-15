@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static('.'));
 
 const configuration = new Configuration({
-  apiKey: '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'
+  apiKey: apiKey: process.env.OPENAI_API_KEY
 });
 
 const openai = new OpenAIApi(configuration);
