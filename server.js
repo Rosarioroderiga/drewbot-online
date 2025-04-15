@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static('.'));
 
 const configuration = new Configuration({
-  apiKey: apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 const openai = new OpenAIApi(configuration);
