@@ -8,7 +8,7 @@
     textarea { width: 178px; padding: 10px; border: 1px solid #ccc; resize: vertical; font-family: 'Poppins', sans-serif; font-size: 6pt; letter-spacing: 2px; text-align: center; }
     button { margin-top: 5px; padding: 5px 10px; background-color: rgba(139,135,135,255);  border: none; border-radius: 4px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 6pt; letter-spacing: 2px; } 
    #response {
-  display: none; /* <- kluczowa zmiana */
+  display: none;
   margin-top: 5px;
   white-space: pre-wrap;
   background: #fff;
@@ -81,35 +81,27 @@ Teraz rób to samo.`
     }
   ];
 
-  async function talkToDrew() {
-    const inputField = document.getElementById("userInput");
-    const responseBox = document.getElementById("response");
-    const input = inputField.value.trim();
+    async function talkToDrew() {
+    const input = document.getElementById('userInput').value.trim();
+    const responseBox = document.getElementById('response');
 
     if (!input) {
+      responseBox.style.display = "block";
       responseBox.textContent = "CISZA?";
       return;
     }
 
-    // Dodaj wiadomość użytkownika do historii
-    conversationHistory.push({ role: "user", content: input });
-
     responseBox.style.display = "block";
-responseBox.textContent = "DREW PISZE...";
-    inputField.value = "";
+    responseBox.textContent = "DREW PISZE...";
 
     try {
-      const res = await fetch("/api/drew", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: conversationHistory })
+      const res = await fetch('/api/drew', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input })
       });
 
       const data = await res.json();
-
-      // Dodaj odpowiedź Drew do historii
-      conversationHistory.push({ role: "assistant", content: data.reply });
-
       responseBox.textContent = data.reply;
     } catch (err) {
       responseBox.textContent = "CHYBA ZGUBIŁ ZASIĘG";
