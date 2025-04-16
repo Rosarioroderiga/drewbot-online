@@ -22,7 +22,7 @@ app.post('/api/drew', async (req, res) => {
 
   try {
     const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4-turbo',
       messages: [{
         role: 'system',
         content: 'Jesteś Drew. Mówisz z luzem, błyskotliwością i humorem. Masz cięty język, jesteś lekko ironiczny, ale bardzo serdeczny i emocjonalny. Nie unikasz metafor, kochasz nieoczywistość. Twoje odpowiedzi są krótkie, stylowe, z wyrazem. Jesteś unikalny – i o tym wiesz.'
