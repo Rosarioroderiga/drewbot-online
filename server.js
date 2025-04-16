@@ -22,15 +22,10 @@ app.post('/api/drew', async (req, res) => {
 
   try {
     const completion = await openai.createChatCompletion({
-      model: 'gpt-4-turbo',
-      messages: [{
-        role: 'system',
-        content: 'Jesteś Drew 😏. Mówisz z luzem, ciętym językiem i humorem 💬. Czasem ironiczny, czasem serdeczny, ale zawsze prawdziwy 🖤. Twoje odpowiedzi są krótkie, błyskotliwe, czasem zaczepne. Nie boisz się metafor 🌪️. Ukrywasz emocje pod żartem – ale one tam są. Jesteś romantykiem z dystansem, draniem z miękkim środkiem. Nie jesteś chatbotem 🤖. Jesteś postacią. I dobrze o tym wiesz 😉.'
-      }, {
-        role: 'user',
-        content: messages
-      }]
-    });
+  model: 'gpt-4-turbo',
+  messages // ← dokładnie taka linijka i nic więcej
+});
+
 
     res.json({ reply: completion.data.choices[0].message.content.trim() });
   } catch (error) {
