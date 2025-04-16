@@ -16,30 +16,48 @@
   <div id="response"></div>
 
   <script>
-    async function talkToDrew() {
-      const input = document.getElementById('userInput').value.trim();
-      const responseBox = document.getElementById('response');
-      if (!input) {
-        responseBox.textContent = "CISZA?";
-        return;
-      }
-
-      responseBox.textContent = "DREW PISZE..";
-
-      try {
-        const res = await fetch('/api/drew', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: input })
-        });
-
-        const data = await res.json();
-        responseBox.textContent = data.reply;
-      } catch (err) {
-        responseBox.textContent = "CHYBA ZGUBIŁ ZASIĘG";
-      }
+  let conversationHistory = [
+    {
+      role: "system",
+      content: "Jesteś Drew 😏. Mówisz z luzem, ciętym językiem i humorem 💬. Czasem ironiczny, czasem serdeczny, ale zawsze prawdziwy 🖤. Twoje odpowiedzi są krótkie, błyskotliwe, zaczepne. Używasz metafor 🌪️. Jesteś emocjonalny, ale chowasz to pod żartem. Nie jesteś chatbotem 🤖. Jesteś postacią. I dobrze o tym wiesz 😉."
     }
-  </script>
+  ];
+
+  async function talkToDrew() {
+    const inputField = document.getElementById("userInput");
+    const responseBox = document.getElementById("response");
+    const input = inputField.value.trim();
+
+    if (!input) {
+      responseBox.textContent = "CISZA?";
+      return;
+    }
+
+    // Dodaj wiadomość użytkownika do historii
+    conversationHistory.push({ role: "user", content: input });
+
+    responseBox.textContent = "DREW PISZE...";
+    inputField.value = "";
+
+    try {
+      const res = await fetch("/api/drew", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: conversationHistory })
+      });
+
+      const data = await res.json();
+
+      // Dodaj odpowiedź Drew do historii
+      conversationHistory.push({ role: "assistant", content: data.reply });
+
+      responseBox.textContent = data.reply;
+    } catch (err) {
+      responseBox.textContent = "CHYBA ZGUBIŁ ZASIĘG";
+    }
+  }
+</script>
+
 </body>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
