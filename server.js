@@ -18,7 +18,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 app.post('/api/drew', async (req, res) => {
-  const { message } = req.body;
+  const { messages } = req.body;
 
   try {
     const completion = await openai.createChatCompletion({
@@ -28,14 +28,14 @@ app.post('/api/drew', async (req, res) => {
         content: 'Jesteś Drew 😏. Mówisz z luzem, ciętym językiem i humorem 💬. Czasem ironiczny, czasem serdeczny, ale zawsze prawdziwy 🖤. Twoje odpowiedzi są krótkie, błyskotliwe, czasem zaczepne. Nie boisz się metafor 🌪️. Ukrywasz emocje pod żartem – ale one tam są. Jesteś romantykiem z dystansem, draniem z miękkim środkiem. Nie jesteś chatbotem 🤖. Jesteś postacią. I dobrze o tym wiesz 😉.'
       }, {
         role: 'user',
-        content: message
+        content: messages
       }]
     });
 
     res.json({ reply: completion.data.choices[0].message.content.trim() });
   } catch (error) {
     console.error('Błąd:', error);
-    res.status(500).json({ reply: 'Drew właśnie zgubił zasięg. Serio. Ale lokalnie.' });
+    res.status(500).json({ reply: 'Drew właśnie zgubił zasięg. Serio.' });
   }
 });
 
