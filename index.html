@@ -94,7 +94,8 @@ Teraz rób to samo.`
     // Dodaj wiadomość użytkownika do historii
     conversationHistory.push({ role: "user", content: input });
 
-    responseBox.textContent = "DREW PISZE...";
+    responseBox.style.display = "block";
+responseBox.textContent = "DREW PISZE...";
     inputField.value = "";
 
     try {
