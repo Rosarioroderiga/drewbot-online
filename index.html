@@ -7,19 +7,18 @@
     body { height: 200px; font-family: 'Poppins', sans-serif; max-width: 200px; margin: 0px; padding: 0px; background: #f9f9f9; line-height: 10px; font-size: 6pt; text-align: center; letter-spacing: 2px; text-transform: uppercase; }
     textarea { width: 178px; padding: 10px; border: 1px solid #ccc; resize: vertical; font-family: 'Poppins', sans-serif; font-size: 6pt; letter-spacing: 2px; text-align: center; }
     button { margin-top: 5px; padding: 5px 10px; background-color: rgba(139,135,135,255);  border: none; border-radius: 4px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 6pt; letter-spacing: 2px; } 
-#response {
-  margin-top: 5px;
-  max-width: 100%;
-  white-space: pre-wrap;
-  background: transparent;
-  padding: 0;
-  border: none;
-  font-family: 'Poppins', sans-serif;
-  font-size: 6pt;
-  letter-spacing: 2px;
-  text-align: center;
-  visibility: hidden;
-}
+  #response {
+      display: none;
+      margin-top: 5px;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      font-family: 'Poppins', sans-serif;
+      font-size: 6pt;
+      letter-spacing: 2px;
+      text-align: center;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
@@ -85,11 +84,14 @@ Teraz rób to samo.`
      async function talkToDrew() {
       const input = document.getElementById('userInput').value.trim();
       const responseBox = document.getElementById('response');
+
       if (!input) {
+        responseBox.style.display = 'block';
         responseBox.textContent = "CISZA?";
         return;
       }
 
+      responseBox.style.display = 'block';
       responseBox.textContent = "DREW PISZE...";
 
       try {
@@ -100,12 +102,10 @@ Teraz rób to samo.`
         });
 
         const data = await res.json();
-   responseBox.style.visibility = 'visible';
-responseBox.style.padding = '10px';
-responseBox.style.border = '1px solid #ccc';
-responseBox.style.background = '#fff';
-responseBox.textContent = data.reply;
+        responseBox.style.display = 'block';
+        responseBox.textContent = data.reply;
       } catch (err) {
+        responseBox.style.display = 'block';
         responseBox.textContent = "CHYBA ZGUBIŁ ZASIĘG";
       }
     }
