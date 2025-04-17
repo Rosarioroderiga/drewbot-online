@@ -10,6 +10,10 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('.'));
+// Szturchaniec, żeby Drew nie przysnął
+app.get('/ping', (req, res) => {
+  res.status(200).send('Drew nie śpi. Wciąga latte przez nos.');
+});
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
