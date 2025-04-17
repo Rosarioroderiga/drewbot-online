@@ -80,30 +80,33 @@ Teraz rób to samo.`
     }
   ];
 
-     async function talkToDrew() {
-      const input = document.getElementById('userInput').value.trim();
-      const responseBox = document.getElementById('response');
+    async function talkToDrew() {
+  const input = document.getElementById('userInput').value.trim();
+  const responseBox = document.getElementById('response');
 
-      if (!input) {
-        responseBox.textContent = "CISZA?";
-        return;
-      }
+  if (!input) {
+    responseBox.textContent = "CISZA?";
+    return;
+  }
 
-      responseBox.textContent = "DREW PISZE...";
+  responseBox.textContent = "DREW PISZE...";
 
-      try {
-        const res = await fetch('/api/drew', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: input })
-        });
+  conversationHistory.push({ role: "user", content: input });
 
-        const data = await res.json();
-        responseBox.textContent = data.reply;
-      } catch (err) {
-        responseBox.textContent = "CHYBA ZGUBIŁ ZASIĘG";
-      }
-    }
+  try {
+    const res = await fetch('/api/drew', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: conversationHistory })
+    });
+
+    const data = await res.json();
+    conversationHistory.push({ role: "assistant", content: data.reply });
+    responseBox.textContent = data.reply;
+  } catch (err) {
+    responseBox.textContent = "CHYBA ZGUBIŁ ZASIĘG";
+  }
+}
 </script>
 
 </body>
