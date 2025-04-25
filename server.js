@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Configuration, OpenAIApi } = require('openai');
+const { sendConversationsEmail } = require('./dailyEmailSender');
 
 const app = express();
 const port = process.env.PORT || 3000;
