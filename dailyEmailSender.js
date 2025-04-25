@@ -42,7 +42,7 @@ const transporter = nodemailer.createTransport({
   const mailOptions = {
   from: process.env.MAILGUN_SMTP_USER,
   to: 'rosario.roderiga@gmail.com',
-  subject: `Dzienna rozmowa DrewBota — ${new Date().toLocaleDateString()}`,
+  subject: `Raport DrewBota — ${new Date().toLocaleDateString()}`,
   text: chatFormat
 };
 
