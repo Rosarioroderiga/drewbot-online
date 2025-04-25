@@ -22,23 +22,19 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 app.post('/api/drew', async (req, res) => {
-  const { message } = req.body; // <-- pojedyncza wiadomość!
+  const { messages } = req.body; // <-- TERAZ pobieramy całą historię!
 
   try {
     const completion = await openai.createChatCompletion({
       model: 'gpt-4-turbo',
-      messages: [
-        {
-          role: 'user',
-          content: message
-        }
-      ]
+      messages: messages // <-- przekazujemy całą historię
     });
 
     const drewReply = completion.data.choices[0].message.content.trim();
 
-    // 💾 Zapisz rozmowę
-    logConversation(message, drewReply);
+    // 💾 Zapisz ostatnie pytanie i odpowiedź Drew
+    const lastUserMessage = messages.findLast(m => m.role === "user")?.content || "Brak pytania.";
+    logConversation(lastUserMessage, drewReply);
 
     res.json({ reply: drewReply });
   } catch (error) {
