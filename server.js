@@ -43,6 +43,25 @@ app.post('/api/drew', async (req, res) => {
   }
 });
 
+const fs = require('fs');
+const path = '/tmp/conversations.json';
+
+app.get('/conversations', (req, res) => {
+  try {
+    if (fs.existsSync(path)) {
+      const data = fs.readFileSync(path, 'utf8');
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).send(data);
+    } else {
+      res.status(200).send('Brak zapisanych rozmów. Drew może był offline.');
+    }
+  } catch (err) {
+    console.error('Błąd podczas odczytu rozmów:', err);
+    res.status(500).send('Ups. Drew próbował coś znaleźć, ale się zgubił.');
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`DrewBot nasłuchuje na http://localhost:${port}`);
 });
