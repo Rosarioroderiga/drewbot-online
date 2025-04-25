@@ -29,27 +29,21 @@ const sendConversationsEmail = async () => {
     return `Użytkownik: ${entry.userMessage}\nDrew: ${entry.drewReply}\n`;
   }).join('\n');
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.MY_EMAIL_ADDRESS,
-      pass: process.env.MY_EMAIL_PASSWORD
-    }
-  });
+const transporter = nodemailer.createTransport({
+  host: 'smtp.mailgun.org',
+  port: 587,
+  auth: {
+    user: process.env.MAILGUN_SMTP_USER,
+    pass: process.env.MAILGUN_SMTP_PASS
+  }
+});
+
 
   const mailOptions = {
-  from: process.env.MY_EMAIL_ADDRESS,
-  to: process.env.MY_EMAIL_ADDRESS,
-  subject: `🐾 DrewBot Testowy Mail — Sprawdź Spam! 🐾`,
-  text: `Hej! To jest testowy e-mail od DrewBota.
-
-Jeśli widzisz tę wiadomość, oznacza to, że Drew właśnie wstał z kanapy i nauczył się wysyłać maile.
-
-Jeśli masz tę wiadomość w Spamie — oznacz ją jako "NIE SPAM", żeby następne trafiały normalnie!
-
-Dzięki za cierpliwość 🍕☕🖤
-
-— Drew`
+  from: process.env.MAILGUN_SMTP_USER,
+  to: rosario.roderiga@gmail.com,
+  subject: `Dzienna rozmowa DrewBota — ${new Date().toLocaleDateString()}`,
+  text: chatFormat
 };
 
 
