@@ -58,3 +58,5 @@ cron.schedule('0 19 * * *', async () => {
   console.log('⏰ 21:00 — DrewBot wysyła rozmowy!');
   await sendConversationsEmail();
 });
+
+module.exports = { sendConversationsEmail };
