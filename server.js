@@ -65,3 +65,14 @@ app.get('/conversations', (req, res) => {
 app.listen(port, () => {
   console.log(`DrewBot nasłuchuje na http://localhost:${port}`);
 });
+
+app.get('/send-test-email', async (req, res) => {
+  try {
+    await sendConversationsEmail();
+    res.send('✉️ Testowy e-mail wysłany!');
+  } catch (error) {
+    console.error('Błąd podczas wysyłania testowego e-maila:', error);
+    res.status(500).send('😢 Nie udało się wysłać testowego e-maila.');
+  }
+});
+
