@@ -1,4 +1,4 @@
-
+const logConversation = require('./logConversation');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -30,7 +30,11 @@ app.post('/api/drew', async (req, res) => {
   messages // ← dokładnie taka linijka i nic więcej
 });
 
+const drewReply = completion.data.choices[0].message.content.trim();
 
+    // 💾 Zapisz rozmowę
+    logConversation(message, drewReply);
+    
     res.json({ reply: completion.data.choices[0].message.content.trim() });
   } catch (error) {
     console.error('Błąd:', error);
