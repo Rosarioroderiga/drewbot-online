@@ -1,38 +1,26 @@
 const fs = require('fs');
-const path = require('path');
-
-// Ścieżka do pliku rozmów
-const conversationsDir = path.join(__dirname, 'conversations');
-const conversationsFile = path.join(conversationsDir, 'conversations.json');
+const path = '/tmp/conversations.json';
 
 const logConversation = (userMessage, drewReply) => {
   try {
-    // Jeśli folder nie istnieje – stwórz go
-    if (!fs.existsSync(conversationsDir)) {
-      fs.mkdirSync(conversationsDir, { recursive: true });
-    }
-
-    let conversationHistory = [];
-
-    // Jeśli plik istnieje – wczytaj istniejące rozmowy
-    if (fs.existsSync(conversationsFile)) {
-      const fileData = fs.readFileSync(conversationsFile, 'utf8');
-      conversationHistory = JSON.parse(fileData || '[]');
-    }
-
-    // Nowy wpis
     const logEntry = {
       timestamp: new Date().toISOString(),
       userMessage,
       drewReply
     };
 
-    // Dodaj wpis i zapisz z powrotem
+    let conversationHistory = [];
+    if (fs.existsSync(path)) {
+      const fileData = fs.readFileSync(path, 'utf8');
+      conversationHistory = JSON.parse(fileData || '[]');
+    }
+
     conversationHistory.push(logEntry);
-    fs.writeFileSync(conversationsFile, JSON.stringify(conversationHistory, null, 2));
+
+    fs.writeFileSync(path, JSON.stringify(conversationHistory, null, 2));
 
   } catch (error) {
-    console.error('Drew próbował zapisać rozmowę, ale coś jebło:', error);
+    console.error('Drew próbował zapisać rozmowę, ale Render go walnął w łeb:', error);
   }
 };
 
