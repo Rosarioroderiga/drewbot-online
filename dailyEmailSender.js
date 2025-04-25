@@ -38,11 +38,20 @@ const sendConversationsEmail = async () => {
   });
 
   const mailOptions = {
-    from: process.env.MY_EMAIL_ADDRESS,
-    to: process.env.MY_EMAIL_ADDRESS,
-    subject: `Dzienna rozmowa DrewBota — ${new Date().toLocaleDateString()}`,
-    text: chatFormat
-  };
+  from: process.env.MY_EMAIL_ADDRESS,
+  to: process.env.MY_EMAIL_ADDRESS,
+  subject: `🐾 DrewBot Testowy Mail — Sprawdź Spam! 🐾`,
+  text: `Hej! To jest testowy e-mail od DrewBota.
+
+Jeśli widzisz tę wiadomość, oznacza to, że Drew właśnie wstał z kanapy i nauczył się wysyłać maile.
+
+Jeśli masz tę wiadomość w Spamie — oznacz ją jako "NIE SPAM", żeby następne trafiały normalnie!
+
+Dzięki za cierpliwość 🍕☕🖤
+
+— Drew`
+};
+
 
   try {
     await transporter.sendMail(mailOptions);
