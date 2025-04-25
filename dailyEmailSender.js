@@ -1,3 +1,4 @@
+const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = '/tmp/conversations.json';
@@ -24,7 +25,6 @@ const sendConversationsEmail = async () => {
     return;
   }
 
-  // Formatowanie rozmowy w stylu czatu
   const chatFormat = conversations.map(entry => {
     return `Użytkownik: ${entry.userMessage}\nDrew: ${entry.drewReply}\n`;
   }).join('\n');
@@ -47,12 +47,14 @@ const sendConversationsEmail = async () => {
   try {
     await transporter.sendMail(mailOptions);
     console.log('✉️ Dzienny e-mail z rozmową wysłany!');
-    // Opcjonalne czyszczenie pliku po wysyłce
     fs.writeFileSync(path, '[]');
   } catch (error) {
     console.error('Błąd wysyłki rozmowy:', error);
   }
 };
 
-// Wywołuj wysyłkę co 24h
-setInterval(sendConversationsEmail, 24 * 60 * 60 * 1000); // co 24 godziny
+// CRON: Wyślij rozmowy codziennie o 21:00
+cron.schedule('0 19 * * *', async () => {
+  console.log('⏰ 21:00 — DrewBot wysyła rozmowy!');
+  await sendConversationsEmail();
+});
